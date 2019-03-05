@@ -22,9 +22,8 @@
 </head>
 
 <body>
-	<form name="form1" method="post" enctype="multipart/form-data">
-		<input type="file" name="screenshot"/>
-		<input type="hidden" value="joe" name="author" />
+	<form method="post" action="upload.php" enctype="multipart/form-data">
+		<input type="file" name="upload"/>
 		<input type="submit" value="sumbit" />
 	</form>
 </body>
