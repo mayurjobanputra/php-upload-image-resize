@@ -5,11 +5,10 @@
 		public function __construct($file){
 			$this->original_image = $file["tmp_name"];
 			$this->file_name = $file["name"];
-			$this->type = explode(".", $this->file_name);
-			$this->type = $this->type[1];
+			$this->type = pathinfo($this->file_name, PATHINFO_EXTENSION);
 			if (!in_array($this->type, $this->fileTypes)) {
-	            echo "file type Error!!";
-	            exit;
+				echo "file type Error!!";
+				exit;
 			}
 			$this->setup();
 		}
