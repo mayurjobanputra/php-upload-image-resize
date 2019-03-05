@@ -1,8 +1,8 @@
-php resize the image file
+**php resize the image file**
 
-<div style="background-color:#aaa">
-include_once("UploadResizeImage.php");
-</div>
+  include_once("UploadResizeImage.php");
+
+
 $resize = new UploadResizeImage($_FILES["upload"]);
 
 $resize->setProperty("width", 300);
