@@ -32,8 +32,8 @@ upload.php
 ?>
 ```
 
-property:
-model:width, height, small, large, fixed, none;
+property:<br>
+model:width, height, small, large, fixed, none;<br>
 backgroundColor:transparent, white, black.....you chosen.
 
 ## If you upload no result, try to change php.ini file settings as below.
