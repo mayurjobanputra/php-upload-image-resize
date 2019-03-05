@@ -1,4 +1,4 @@
-# PHP Resize Image File
+# PHP Resize Upload Image File
 
 ```
 <?php
