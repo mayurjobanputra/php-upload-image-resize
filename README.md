@@ -12,4 +12,4 @@ $resize->setProperty("model", "large");
 
 $resize->execute();
 
-$resize->save("upload-path"); //eg. upload/photo.jpg
+$resize->save("full-upload-path"); //eg. upload/photo.jpg
