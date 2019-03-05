@@ -1,5 +1,9 @@
 php resize the image file
 
+<?php
+
+include_once("UploadResizeImage.php");
+
 $resize = new UploadResizeImage($_FILES["upload"]);
 
 $resize->setProperty("width", 300);
