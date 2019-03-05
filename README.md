@@ -1,4 +1,4 @@
-#php resize the image file
+# php resize the image file
 
 include_once("UploadResizeImage.php");
 
