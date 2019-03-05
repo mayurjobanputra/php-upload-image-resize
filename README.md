@@ -1,6 +1,6 @@
 # PHP Resize Upload Image File
 
-UploadResizeImage - is the free and make upload image file resize esaily
+UploadResizeImage - is the free and make upload image file resize easily
 
 ```
 <?php
