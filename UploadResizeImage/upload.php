@@ -1,6 +1,6 @@
 <?php
     include_once("UploadResizeImage.php");
-    $file = $_FILES["screenshot"];
+    $file = $_FILES["upload"];
     $resize = new UploadResizeImage($file);
     $resize->setProperty("width", 300);
     $resize->setProperty("height", 200);
