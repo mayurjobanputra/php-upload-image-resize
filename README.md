@@ -1,7 +1,6 @@
-**php resize the image file**
+#php resize the image file
 
-  include_once("UploadResizeImage.php");
-
+include_once("UploadResizeImage.php");
 
 $resize = new UploadResizeImage($_FILES["upload"]);
 
