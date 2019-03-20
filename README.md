@@ -31,8 +31,8 @@ upload.php
 ```
 
 ### property:<br>
-default: resize image according the width<br>
-if provide targetHeight value, it will have crop effect
+Default: According the width resize image<br>
+if provide targetHeight value, it will have cropped effect
 
 ## If you upload no result, try to change php.ini file settings as below.
 
