@@ -24,20 +24,15 @@ upload.php
 <?php
   include_once("UploadResizeImage.php");
   $resize = new UploadResizeImage($_FILES["upload"]);
-  $resize->setProperty("width", 300);
-  $resize->setProperty("height", 200);
-  $resize->setProperty("model", "large");
-  $resize->execute();
+  $resize->targetWidth = 300;
+  $resize->targetHeight = 200;
   $resize->save("full-upload-path"); //eg. upload/photo.jpg
 ?>
 ```
 
 ### property:<br>
-model:<br>
-width, height, small, large, fixed, none;<br>
-
-backgroundColor:<br>
-transparent, white, black.....you chosen.
+default: resize image according the width
+if provide targetHeight value, it will have crop effect
 
 ## If you upload no result, try to change php.ini file settings as below.
 
