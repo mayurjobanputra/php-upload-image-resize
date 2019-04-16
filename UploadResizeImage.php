@@ -51,11 +51,11 @@ class UploadResizeImage{
 
 	    switch($this->fileType) {
         case 'peng':
-	      case 'png':
+        case 'png':
 	        imagepng($this->resizeImage, $fullPathFileName);
         break;
         default:
-          imagejpeg($this->resizeImage, $fullPathFileName, 100);
+            imagejpeg($this->resizeImage, $fullPathFileName, 100);
         break;
 	    }
 	} 
@@ -67,6 +67,8 @@ class UploadResizeImage{
 		$this->targetHeight = $activeHeight;
 
     $this->resizeImage = imagecreatetruecolor($this->targetWidth, $this->targetHeight);
+        $bgcolor = imagecolorallocatealpha($this->resizeImage, 255, 255, 255, 0);
+        imagefill($this->resizeImage, 0, 0, $bgcolor);
 		imagecopyresampled($this->resizeImage, $this->originalImage, 0, 0, 0, 0, $activeWidth, $activeHeight, $this->originalWidth, $this->originalHeight);
 	}
     
@@ -81,13 +83,17 @@ class UploadResizeImage{
             $trim = ($this->targetWidth - $activeWidth)/2;
 
             $this->resizeImage = imagecreatetruecolor($this->targetWidth, $this->targetHeight);
+            $bgcolor = imagecolorallocatealpha($this->resizeImage, 255, 255, 255, 0);
+            imagefill($this->resizeImage, 0, 0, $bgcolor);
             imagecopyresampled($this->resizeImage, $this->originalImage, $trim, 0, 0, 0, $activeWidth, $activeHeight, $this->originalWidth, $this->originalHeight);
 		} else {
             $activeWidth = $this->targetWidth;
             $activeHeight = $this->originalHeight * $activeWidth / $this->originalWidth;
             $trim = ($this->targetHeight - $activeHeight)/2;
 
-            $this->resizeImage = imagecreatetruecolor($this->targetWidth, $this->targetHeight); 
+            $this->resizeImage = imagecreatetruecolor($this->targetWidth, $this->targetHeight);            
+            $bgcolor = imagecolorallocatealpha($this->resizeImage, 255, 255, 255, 0);
+            imagefill($this->resizeImage, 0, 0, $bgcolor);
             imagecopyresampled($this->resizeImage, $this->originalImage, 0, $trim, 0, 0, $activeWidth, $activeHeight, $this->originalWidth, $this->originalHeight);
 		}
 	}
