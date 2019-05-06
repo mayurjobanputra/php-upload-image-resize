@@ -31,7 +31,7 @@ upload.php
 ?>
 ```
 
-###mode:(根據設定的targetWidth和targetHeight的百份比)<br>
+### mode:(根據設定的targetWidth和targetHeight的百份比)<br>
 default: cover<br>
 cover: 會crop圖,但不會有白色或透明的背境色出現<br>
 contain: 不會crop圖,但會出現白色或透明的背境色<br>
