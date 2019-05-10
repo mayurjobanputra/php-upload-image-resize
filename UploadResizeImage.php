@@ -108,8 +108,14 @@ class UploadResizeImage{
 		$this->targetHeight = $activeHeight;
 
 		$this->resizeImage = imagecreatetruecolor($this->targetWidth, $this->targetHeight);
-		$bgcolor = imagecolorallocatealpha($this->resizeImage, 255, 255, 255, 0);
-		imagefill($this->resizeImage, 0, 0, $bgcolor);
+		imagealphablending($this->resizeImage, false);
+		imagesavealpha($this->resizeImage,true);
+		$transparency = imagecolorallocatealpha($this->resizeImage, 255, 255, 255, 127);
+		imagefilledrectangle($this->resizeImage, 0, 0, $this->targetWidth, $this->targetWidth, $transparency);
+
+		/* $bgcolor = imagecolorallocatealpha($this->resizeImage, 255, 255, 255, 0);
+		imagefill($this->resizeImage, 0, 0, $bgcolor); */
+
 		imagecopyresampled($this->resizeImage, $this->originalImage, 0, 0, 0, 0, $activeWidth, $activeHeight, $this->originalWidth, $this->originalHeight);
 	}
 	
@@ -119,8 +125,13 @@ class UploadResizeImage{
 		$trim = ($this->targetWidth - $activeWidth)/2;
 
 		$this->resizeImage = imagecreatetruecolor($this->targetWidth, $this->targetHeight);
-		$bgcolor = imagecolorallocatealpha($this->resizeImage, 255, 255, 255, 0);
-		imagefill($this->resizeImage, 0, 0, $bgcolor);
+		imagealphablending($this->resizeImage, false);
+		imagesavealpha($this->resizeImage,true);
+		$transparency = imagecolorallocatealpha($this->resizeImage, 255, 255, 255, 127);
+		imagefilledrectangle($this->resizeImage, 0, 0, $this->targetWidth, $this->targetWidth, $transparency);
+
+		//$bgcolor = imagecolorallocatealpha($this->resizeImage, 255, 255, 255, 0);
+		//imagefill($this->resizeImage, 0, 0, $bgcolor);
 		imagecopyresampled($this->resizeImage, $this->originalImage, $trim, 0, 0, 0, $activeWidth, $activeHeight, $this->originalWidth, $this->originalHeight);
 	}
 
@@ -129,9 +140,14 @@ class UploadResizeImage{
 		$activeHeight = $this->originalHeight * $activeWidth / $this->originalWidth;
 		$trim = ($this->targetHeight - $activeHeight)/2;
 
-		$this->resizeImage = imagecreatetruecolor($this->targetWidth, $this->targetHeight);            
-		$bgcolor = imagecolorallocatealpha($this->resizeImage, 255, 255, 255, 0);
-		imagefill($this->resizeImage, 0, 0, $bgcolor);
+		$this->resizeImage = imagecreatetruecolor($this->targetWidth, $this->targetHeight);
+		imagealphablending($this->resizeImage, false);
+		imagesavealpha($this->resizeImage,true);
+		$transparency = imagecolorallocatealpha($this->resizeImage, 255, 255, 255, 127);
+		imagefilledrectangle($this->resizeImage, 0, 0, $this->targetWidth, $this->targetWidth, $transparency);           
+		/* $bgcolor = imagecolorallocatealpha($this->resizeImage, 255, 255, 255, 0);
+		imagefill($this->resizeImage, 0, 0, $bgcolor); */
+
 		imagecopyresampled($this->resizeImage, $this->originalImage, 0, $trim, 0, 0, $activeWidth, $activeHeight, $this->originalWidth, $this->originalHeight);
 	}
 }
