@@ -20,7 +20,7 @@ class UploadResizeImage{
 
 	public function __construct($file){
 
-        $this->fileType = pathinfo($file['name'], PATHINFO_EXTENSION);
+        $this->fileType = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
 
         if (!in_array($this->fileType, array('jpg', 'jpeg', 'png', 'peng'))) {
             echo "only accept format: jpg, jpeg, png, peng";
