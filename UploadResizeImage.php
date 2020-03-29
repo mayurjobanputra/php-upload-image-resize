@@ -18,24 +18,34 @@ class UploadResizeImage{
 			autoHeight: 根據width做縮放, 但高度不是targetHeight, 而是根據width的百份比而得的高度
 	*/
 
-	public function __construct($file){
+	// accept $_FILE['image'][temp_name] for multiple file uploads
+	// cancel validate file
+	public function __construct($tmp_name, $ext="jpg"){
 
-        $this->fileType = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+        /* $this->fileType = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
 
         if (!in_array($this->fileType, array('jpg', 'jpeg', 'png', 'peng'))) {
             echo "only accept format: jpg, jpeg, png, peng";
             exit;
-        }
+        } */
 
-      $tmpName = $file["tmp_name"];
+      // $tmpName = $file["tmp_name"];
 
-      list($this->originalWidth, $this->originalHeight) = getimagesize($tmpName);
+	  list($this->originalWidth, $this->originalHeight) = getimagesize($tmp_name);
+	  
+	  if($ext === "jpg") {
+		$this->fileType = 'jpg';
+		$this->originalImage = imagecreatefromjpeg($tmp_name);
+	  } else {
+		$this->fileType = 'png';
+		$this->originalImage = imagecreatefrompng($tmp_name);
+	  }
 
-		if ($this->fileType == 'jpeg' || $this->fileType == 'jpg') {
+/* 		if ($this->fileType == 'jpeg' || $this->fileType == 'jpg') {
 			$this->originalImage = imagecreatefromjpeg($tmpName);
 		} else  if ($this->fileType == 'png'){
 			$this->originalImage = imagecreatefrompng($tmpName);
-		}
+		} */
 	}
 
 	public function __set($key, $value) {
