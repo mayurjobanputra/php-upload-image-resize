@@ -1,11 +1,11 @@
 <?php
 	if (isset($_POST["author"])) {
 		include_once "UploadResizeImage.php";
-		$file = $_FILES["screenshot"];
+		$file = $_FILES["screenshot"]['tmp_name'];
 		$resize = new UploadResizeImage($file);
-		$resize->targetWidth = 1200;
+		$resize->targetWidth = 600;
 		$resize->targetHeight = 600;
-		$resize->mode = "autoHeight";
+		// $resize->mode = "autoHeight";
 		$resize->save("testing2.jpg");
 		header('Content-Type: image/jpeg');
 		imagejpeg($resize->resizeImage);
