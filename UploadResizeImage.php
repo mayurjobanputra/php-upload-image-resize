@@ -133,6 +133,10 @@ class UploadResizeImage{
 		$activeHeight = $this->targetHeight;
 		$activeWidth =  $this->originalWidth * $activeHeight / $this->originalHeight;
 		$trim = ($this->targetWidth - $activeWidth)/2;
+		
+		        if ($this->targetWidth == 0) {
+            $this->targetWidth = $activeWidth;
+        }
 
 		$this->resizeImage = imagecreatetruecolor($this->targetWidth, $this->targetHeight);
 		imagealphablending($this->resizeImage, false);
@@ -149,6 +153,10 @@ class UploadResizeImage{
 		$activeWidth = $this->targetWidth;
 		$activeHeight = $this->originalHeight * $activeWidth / $this->originalWidth;
 		$trim = ($this->targetHeight - $activeHeight)/2;
+		
+		        if ($this->targetHeight == 0) {
+            $this->targetHeight = $activeHeight;
+        }
 
 		$this->resizeImage = imagecreatetruecolor($this->targetWidth, $this->targetHeight);
 		imagealphablending($this->resizeImage, false);
