@@ -1,30 +1,196 @@
 <?php
-	if (isset($_POST["author"])) {
-		include_once "UploadResizeImage.php";
-		$file = $_FILES["screenshot"]['tmp_name'];
-		$resize = new UploadResizeImage($file);
-		$resize->targetWidth = 600;
-		$resize->targetHeight = 600;
-		// $resize->mode = "autoHeight";
-		$resize->save("testing2.jpg");
-		header('Content-Type: image/jpeg');
-		imagejpeg($resize->resizeImage);
-		die();
+
+namespace App;
+
+class UploadResizeImage{
+    protected $fileType;
+    protected $originalWidth;
+    protected $originalHeight;
+    protected $originalImage;
+    protected $resizeImage;
+    protected $targetWidth = 768;
+	protected $targetHeight = 0;
+	protected $mode = "cover";
+	/* 
+		mode:(根據設定的targetWidth和targetHeight的百份比)
+			cover: 會crop圖,但不會有白色或透明的背境色出現
+			contain: 不會crop圖,但會出現白色或透明的背境色
+			byWidth: 根據width做縮放
+			byHeight: 根據height做縮放
+			autoHeight: 根據width做縮放, 但高度不是targetHeight, 而是根據width的百份比而得的高度
+	*/
+
+	// accept $_FILE['image'][temp_name] for multiple file uploads
+	// cancel validate file
+	public function __construct($tmp_name, $ext="jpg"){
+
+        /* $this->fileType = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+        if (!in_array($this->fileType, array('jpg', 'jpeg', 'png', 'peng'))) {
+            echo "only accept format: jpg, jpeg, png, peng";
+            exit;
+        } */
+
+      // $tmpName = $file["tmp_name"];
+
+	  list($this->originalWidth, $this->originalHeight) = getimagesize($tmp_name);
+	  
+	  if ($ext === 'base64'){
+		$this->fileType = 'png';
+		$this->originalImage = imagecreatefromstring($tmp_name);
+	  } elseif($ext === "jpg") {
+		$this->fileType = 'jpg';
+		$this->originalImage = imagecreatefromjpeg($tmp_name);
+	  } else {
+		$this->fileType = 'png';
+		$this->originalImage = imagecreatefrompng($tmp_name);
+	  }
+
+/* 		if ($this->fileType == 'jpeg' || $this->fileType == 'jpg') {
+			$this->originalImage = imagecreatefromjpeg($tmpName);
+		} else  if ($this->fileType == 'png'){
+			$this->originalImage = imagecreatefrompng($tmpName);
+		} */
 	}
+
+	public function __set($key, $value) {
+		if (isset($this->$key)){
+			$this->$key = $value;
+		}
+    }
+
+    public function __get($key){
+        if (isset($this->$key)){
+            return $this->$key;
+        }
+    }
+    
+	public function save($fullPathFileName){
+		switch ($this->mode){
+			case "contain":
+				$this->contain();
+			break;
+			case "cover":
+				$this->cover();
+			break;
+			case "byWidth":
+				$this->byWidth2();
+			break;
+			case "byHeight":
+				$this->byHeight2();
+			break;
+			case "autoHeight":
+				$this->autoHeight();
+			break;
+		}
+
+	    switch($this->fileType) {
+        case 'peng':
+        case 'png':
+	        imagepng($this->resizeImage, $fullPathFileName);
+        break;
+        default:
+            imagejpeg($this->resizeImage, $fullPathFileName, 100);
+        break;
+	    }
+	} 
+        
+    //Change the size with width and height
+    protected function contain(){
+		$heightRatio = $this->targetHeight / $this->originalHeight;
+        $widthRatio = $this->targetWidth / $this->originalWidth;
+		if ($widthRatio > $heightRatio) {
+			$this->byHeight();
+		} else {
+			$this->byWidth();
+		}
+	}
+
+	public function cover(){
+		$heightRatio = $this->targetHeight / $this->originalHeight;
+        $widthRatio = $this->targetWidth / $this->originalWidth;
+		if ($heightRatio > $widthRatio) {
+			$this->byHeight();
+		} else {
+			$this->byWidth();
+		}
+	}
+
+	//Change the size with the width
+	protected function autoHeight() { 
+		$activeWidth = $this->targetWidth;
+		$activeHeight = $this->originalHeight * $activeWidth / $this->originalWidth;
+		$this->targetHeight = $activeHeight;
+
+		$this->resizeImage = imagecreatetruecolor($this->targetWidth, $this->targetHeight);
+		imagealphablending($this->resizeImage, false);
+		imagesavealpha($this->resizeImage,true);
+		$transparency = imagecolorallocatealpha($this->resizeImage, 255, 255, 255, 127);
+		imagefilledrectangle($this->resizeImage, 0, 0, $this->targetWidth, $this->targetWidth, $transparency);
+
+		/* $bgcolor = imagecolorallocatealpha($this->resizeImage, 255, 255, 255, 0);
+		imagefill($this->resizeImage, 0, 0, $bgcolor); */
+
+		imagecopyresampled($this->resizeImage, $this->originalImage, 0, 0, 0, 0, $activeWidth, $activeHeight, $this->originalWidth, $this->originalHeight);
+	}
+	
+	protected function byHeight(){
+		$activeHeight = $this->targetHeight;
+		$activeWidth =  $this->originalWidth * $activeHeight / $this->originalHeight;
+		$trim = ($this->targetWidth - $activeWidth)/2;
+
+		$this->resizeImage = imagecreatetruecolor($this->targetWidth, $this->targetHeight);
+		imagealphablending($this->resizeImage, false);
+		imagesavealpha($this->resizeImage,true);
+		$transparency = imagecolorallocatealpha($this->resizeImage, 255, 255, 255, 127);
+		imagefilledrectangle($this->resizeImage, 0, 0, $this->targetWidth, $this->targetWidth, $transparency);
+
+		//$bgcolor = imagecolorallocatealpha($this->resizeImage, 255, 255, 255, 0);
+		//imagefill($this->resizeImage, 0, 0, $bgcolor);
+		imagecopyresampled($this->resizeImage, $this->originalImage, $trim, 0, 0, 0, $activeWidth, $activeHeight, $this->originalWidth, $this->originalHeight);
+	}
+
+	protected function byHeight2(){
+		$activeHeight = $this->targetHeight;
+		$activeWidth =  $this->originalWidth * $activeHeight / $this->originalHeight;
+
+		$this->resizeImage = imagecreatetruecolor($activeWidth, $this->targetHeight);
+		imagealphablending($this->resizeImage, false);
+		imagesavealpha($this->resizeImage,true);
+		$transparency = imagecolorallocatealpha($this->resizeImage, 255, 255, 255, 127);
+		imagefilledrectangle($this->resizeImage, 0, 0, $this->targetWidth, $this->targetWidth, $transparency);
+
+		imagecopyresampled($this->resizeImage, $this->originalImage, 0, 0, 0, 0, $activeWidth, $activeHeight, $this->originalWidth, $this->originalHeight);
+	}
+
+	protected function byWidth(){
+		$activeWidth = $this->targetWidth;
+		$activeHeight = $this->originalHeight * $activeWidth / $this->originalWidth;
+		$trim = ($this->targetHeight - $activeHeight)/2;
+
+		$this->resizeImage = imagecreatetruecolor($this->targetWidth, $this->targetHeight);
+		imagealphablending($this->resizeImage, false);
+		imagesavealpha($this->resizeImage,true);
+		$transparency = imagecolorallocatealpha($this->resizeImage, 255, 255, 255, 127);
+		imagefilledrectangle($this->resizeImage, 0, 0, $this->targetWidth, $this->targetWidth, $transparency);           
+		/* $bgcolor = imagecolorallocatealpha($this->resizeImage, 255, 255, 255, 0);
+		imagefill($this->resizeImage, 0, 0, $bgcolor); */
+
+		imagecopyresampled($this->resizeImage, $this->originalImage, 0, $trim, 0, 0, $activeWidth, $activeHeight, $this->originalWidth, $this->originalHeight);
+	}
+
+	protected function byWidth2(){
+		$activeWidth = $this->targetWidth;
+		$activeHeight = $this->originalHeight * $activeWidth / $this->originalWidth;
+
+		$this->resizeImage = imagecreatetruecolor($this->targetWidth, $activeWidth);
+		imagealphablending($this->resizeImage, false);
+		imagesavealpha($this->resizeImage,true);
+		$transparency = imagecolorallocatealpha($this->resizeImage, 255, 255, 255, 127);
+		imagefilledrectangle($this->resizeImage, 0, 0, $this->targetWidth, $this->targetWidth, $transparency);           
+		/* $bgcolor = imagecolorallocatealpha($this->resizeImage, 255, 255, 255, 0);
+		imagefill($this->resizeImage, 0, 0, $bgcolor); */
+
+		imagecopyresampled($this->resizeImage, $this->originalImage, 0, 0, 0, 0, $activeWidth, $activeHeight, $this->originalWidth, $this->originalHeight);
+	}
+}
 ?>
-
-<!DOCTYPE HTML>
-<html>
-<head>
-<meta charset="UTF-8" />
-<title>PHP Upload Resize Image</title>
-</head>
-
-<body>
-	<form name="form1" method="post" enctype="multipart/form-data">
-		<input type="file" name="screenshot"/>
-		<input type="hidden" value="joe" name="author" />
-		<input type="submit" value="sumbit" />
-	</form>
-</body>
-</html>
