@@ -12,3 +12,10 @@ This script takes any image that you upload, resizes the image (defaults 1200 pi
 # Demo?
 
 Visit http://mayur.ca/image-resize
+
+# Security Note
+
+DO NOT remove the .htaccess from the images folder or the images folder. This is very important as it prevents rogue users from uploading a php file and executing it. Some suggestions also say to use the following in addition the two lines I already provided in the .htaccess file. In my case, I found that when I did that in a Wordpress subfolder, I was getting a 404 (I guess Wordpress takes over)<br>
+
+<code>php_flag engine off</code>
+
