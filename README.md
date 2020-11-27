@@ -31,15 +31,15 @@ upload.php
 ?>
 ```
 
-### mode:(根據設定的targetWidth和targetHeight的百份比)<br>
-default: cover<br>
-cover: 會crop圖,但不會有白色或透明的背境色出現<br>
-contain: 不會crop圖,但會出現白色或透明的背境色<br>
-byWidth: 根據width做縮放<br>
-byHeight: 根據height做縮放<br>
-autoHeight: 根據width做縮放, 但高度不是targetHeight, 而是根據width的百份比而得的高度
+### mode:(According to the percentage of targetWidth and targetHeight set)<br>
+default: cover
+cover: It will crop the image, but there will be no white or transparent background color.
+contain: No crop, but white or transparent background color
+byWidth: zoom according to width
+byHeight: Scale according to height
+autoHeight: Scale according to width, but the height is not targetHeight, but the height based on the percentage of width
 
-### property:<br>
+### property:
 Default: According the width resize image<br>
 If provide targetHeight value, it will have cropped effect
 
