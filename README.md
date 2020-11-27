@@ -5,9 +5,9 @@ An adaption of Joe Lau's script located at https://github.com/joelau71/php-uploa
 UploadResizeImage - is the free and make upload image file resize easily
 
 <h1>How to use</h1>
-1. Take all the files in this repo and drop it into a public folder on your WAMP server
-2. Visit the folder you just made in your web browser
-3. Smile
+1. Take all the files in this repo and drop it into a public folder on your WAMP server<br>
+2. Visit the folder you just made in your web browser<br>
+3. Smile<br>
 
 ### mode:(According to the percentage of targetWidth and targetHeight set)<br>
 default: cover<br>
