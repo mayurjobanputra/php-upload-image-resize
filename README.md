@@ -4,34 +4,10 @@ An adaption of Joe Lau's script located at https://github.com/joelau71/php-uploa
 
 UploadResizeImage - is the free and make upload image file resize easily
 
-form.html
-```
-<!DOCTYPE HTML>
-<html>
-<head>
-<meta charset="UTF-8" />
-<title>PHP Upload Resize Image</title>
-</head>
-<body>
-	<form method="post" action="upload.php" enctype="multipart/form-data">
-		<input type="file" name="upload"/>
-		<input type="submit" value="sumbit" />
-	</form>
-</body>
-</html>
-```
-
-upload.php
-```
-<?php
-  include_once("UploadResizeImage.php");
-  $resize = new UploadResizeImage($_FILES["upload"]);
-  $resize->targetWidth = 300;
-  $resize->targetHeight = 200;
-  $resize->mode = "contain";
-  $resize->save("full-upload-path"); //eg. upload/photo.jpg
-?>
-```
+<h1>How to use</h1>
+1. Take all the files in this repo and drop it into a public folder on your WAMP server
+2. Visit the folder you just made in your web browser
+3. Smile
 
 ### mode:(According to the percentage of targetWidth and targetHeight set)<br>
 default: cover<br>
