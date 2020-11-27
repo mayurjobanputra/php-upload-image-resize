@@ -1,5 +1,7 @@
 # PHP Resize Upload Image File
 
+An adaption of Joe Lau's script located at https://github.com/joelau71/php-upload-image-resize
+
 UploadResizeImage - is the free and make upload image file resize easily
 
 form.html
