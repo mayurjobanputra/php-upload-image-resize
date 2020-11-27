@@ -2,7 +2,7 @@ UPDATE: At the moment, this script doesn't work and I'm unsure why. I'm getting 
 
 # A self-hosted PHP Script to resize images
 
-This is an adaption of Joe Lau's script located at https://github.com/joelau71/php-upload-image-resize.
+This is a fork from Joe Lau's script located at https://github.com/joelau71/php-upload-image-resize.
 
 This script takes any image that you upload, resizes the image (defaults 1200 pixels wide or 1200 pixels high) and redirects you to the new image made. This script is useful for quick image resizing online without needing to use a desktop app.
 
