@@ -1,3 +1,5 @@
+UPDATE: At the moment, this script doesn't work and I'm unsure why. I'm getting blank, white images during upload. I hope to fix that soon. 
+
 # A self-hosted PHP Script to resize images
 
 This is an adaption of Joe Lau's script located at https://github.com/joelau71/php-upload-image-resize.
