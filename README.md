@@ -32,12 +32,12 @@ upload.php
 ```
 
 ### mode:(According to the percentage of targetWidth and targetHeight set)<br>
-default: cover
-cover: It will crop the image, but there will be no white or transparent background color.
-contain: No crop, but white or transparent background color
-byWidth: zoom according to width
-byHeight: Scale according to height
-autoHeight: Scale according to width, but the height is not targetHeight, but the height based on the percentage of width
+default: cover<br>
+cover: It will crop the image, but there will be no white or transparent background color.<br>
+contain: No crop, but white or transparent background color<br>
+byWidth: zoom according to width<br>
+byHeight: Scale according to height<br>
+autoHeight: Scale according to width, but the height is not targetHeight, but the height based on the percentage of width<br>
 
 ### property:
 Default: According the width resize image<br>
